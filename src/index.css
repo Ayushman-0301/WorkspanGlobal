@@ -1,0 +1,93 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Brand palette */
+  --color-ink: #15233f;        /* deep navy: headings, strong elements */
+  --color-ink-soft: #2b3a57;   /* body text */
+  --color-slate: #55627a;      /* secondary text */
+  --color-paper: #fbfbf9;      /* page background */
+  --color-mist: #eef1f2;       /* section and card tints */
+  --color-line: #dde2e6;       /* hairlines and borders */
+  --color-accent: #2e6b6a;     /* restrained teal */
+  --color-accent-deep: #22504f;
+  --color-accent-soft: #e2edec;
+  --color-accent-light: #8fc0bc; /* teal for use on navy */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply bg-paper font-sans text-ink-soft antialiased;
+    font-feature-settings: 'ss01', 'kern';
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply text-ink;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* Keep section headings clear of the sticky header when jumped to. */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-accent-light);
+  }
+}
+
+/* The hero's connecting arc draws itself once on load. */
+@keyframes draw-arc {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.arc-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-arc 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+}
+.node-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: node-in 0.5s ease-out forwards;
+}
