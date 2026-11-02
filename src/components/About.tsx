@@ -38,7 +38,7 @@ export function About() {
           <SectionHeading id="about-title" title="One partner for your creative and content work" />
           <div className="mt-6 space-y-4 text-[1.06rem] leading-relaxed text-slate">
             <p>
-              Workspan Global Private Limited is an India-based company providing design, content and
+              Workspan Global is an India-based company providing design, content and
               digital services to businesses in the United States and other international markets.
             </p>
             <p>

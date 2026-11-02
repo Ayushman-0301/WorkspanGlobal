@@ -1,18 +1,14 @@
 /**
  * Site-wide settings and content.
  *
- * Every placeholder you still need to fill in lives in this file.
- * Search for "[Insert" to find them all.
+ * Company name and contact details shown on the site live here.
  */
 
 export const company = {
   brand: 'Workspan Global',
-  legalName: 'Workspan Global Private Limited',
-  // Replace these with your real details. Leave them as-is until you have them;
-  // the site hides the email/phone links while they are still placeholders.
-  email: '[Insert Business Email]',
-  phone: '[Insert Business Phone Number]',
-  address: '[Insert Business Address]',
+  legalName: 'Workspan Global',
+  email: 'admin@workspan-global.com',
+  phone: '+91 78381 49333',
   // Link for the footer "Privacy Policy". A placeholder page ships in /public.
   privacyPolicyUrl: './privacy-policy.html',
 }

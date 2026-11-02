@@ -1,4 +1,4 @@
-import { Building2, Mail, MapPin, Phone } from 'lucide-react'
+import { Building2, Mail, Phone } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { company, isPlaceholder } from '../config/site'
 import { Container, SectionHeading } from './ui'
@@ -47,7 +47,6 @@ export function Contact() {
               value={company.phone}
               href={`tel:${company.phone.replace(/[^\d+]/g, '')}`}
             />
-            <DetailRow icon={MapPin} label="Address" value={company.address} />
           </dl>
         </div>
         <div className="lg:col-span-7">

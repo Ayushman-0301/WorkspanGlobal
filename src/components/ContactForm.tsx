@@ -88,19 +88,33 @@ export function ContactForm() {
 
     setStatus({ kind: 'sending' })
     try {
+      const payload = JSON.stringify({
+        name: fields.name.trim(),
+        email: fields.email.trim(),
+        company: fields.company.trim(),
+        service: fields.service,
+        message: fields.message.trim(),
+        page: window.location.href,
+        _subject: `New enquiry from ${fields.name.trim()} (${fields.service})`,
+      })
+
+      // Google Apps Script web apps can't answer CORS preflight requests, so the data is sent
+      // as plain text (still JSON inside), which browsers send without a preflight.
+      const isAppsScript = /^https:\/\/script\.google(usercontent)?\.com\//.test(formEndpoint)
       const res = await fetch(formEndpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: fields.name.trim(),
-          email: fields.email.trim(),
-          company: fields.company.trim(),
-          service: fields.service,
-          message: fields.message.trim(),
-          _subject: `New enquiry from ${fields.name.trim()} (${fields.service})`,
-        }),
+        headers: isAppsScript
+          ? { 'Content-Type': 'text/plain;charset=utf-8' }
+          : { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: payload,
+        redirect: 'follow',
       })
       if (!res.ok) throw new Error(`Status ${res.status}`)
+      if (isAppsScript) {
+        // The script replies {"ok": true} only after the row is saved and the email sent.
+        const data = (await res.json().catch(() => null)) as { ok?: boolean } | null
+        if (!data?.ok) throw new Error('Script did not confirm')
+      }
       setStatus({ kind: 'sent', email: fields.email.trim() })
       setFields(empty)
       setTouched({})
